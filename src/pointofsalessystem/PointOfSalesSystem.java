@@ -10,7 +10,7 @@ public class PointOfSalesSystem {
         //Login Page
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                JFrame frm = new NewJFrame();
+                JFrame frm = new Login();
                 frm.setLocationRelativeTo(null);
                 frm.setVisible(true);
             }

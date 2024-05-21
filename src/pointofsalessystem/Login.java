@@ -2,12 +2,12 @@ package pointofsalessystem;
 import javax.swing.*;
 import trypos2.pos;
 
-public class NewJFrame extends javax.swing.JFrame {
+public class Login extends javax.swing.JFrame {
 
     /**
      * Creates new form NewJFrame
      */
-    public NewJFrame() {
+    public Login() {
         initComponents();
     }
 
@@ -31,6 +31,7 @@ public class NewJFrame extends javax.swing.JFrame {
         jSeparator1 = new javax.swing.JSeparator();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Starbaracks");
 
         jDesktopPane1.setBackground(new java.awt.Color(0, 102, 102));
         jDesktopPane1.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -84,14 +85,16 @@ public class NewJFrame extends javax.swing.JFrame {
 
         showPassword.setBackground(new java.awt.Color(222, 222, 222));
         showPassword.setFont(new java.awt.Font("Montserrat", 0, 10)); // NOI18N
+        showPassword.setForeground(new java.awt.Color(255, 255, 255));
         showPassword.setText("Show Password");
         showPassword.setToolTipText("");
+        showPassword.setOpaque(false);
         showPassword.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 showPasswordActionPerformed(evt);
             }
         });
-        jDesktopPane1.add(showPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 200, 110, -1));
+        jDesktopPane1.add(showPassword, new org.netbeans.lib.awtextra.AbsoluteConstraints(140, 200, 110, -1));
 
         jSeparator1.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
         jDesktopPane1.add(jSeparator1, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, 320, 190));
@@ -170,21 +173,22 @@ public class NewJFrame extends javax.swing.JFrame {
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NewJFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(Login.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                JFrame frm = new NewJFrame();
+                JFrame frm = new Login();
                 frm.setLocationRelativeTo(null);
                 frm.setVisible(true);
             }
