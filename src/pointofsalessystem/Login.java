@@ -1,7 +1,5 @@
 package pointofsalessystem;
-import javax.imageio.ImageIO;
 import javax.swing.*;
-import trypos2.pos;
 
 public class Login extends javax.swing.JFrame {
     
