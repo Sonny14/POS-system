@@ -13,9 +13,6 @@ import java.awt.*;
 import java.awt.event.*;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
-
-
 import pointofsalessystem.Dashboard;
 
 /**
@@ -135,7 +132,7 @@ public class pos extends javax.swing.JFrame {
         jPanel13 = new javax.swing.JPanel();
         jLabel19 = new javax.swing.JLabel();
         jLabel20 = new javax.swing.JLabel();
-        acai = new javax.swing.JButton();
+        straw = new javax.swing.JButton();
         jPanel14 = new javax.swing.JPanel();
         jLabel21 = new javax.swing.JLabel();
         jLabel22 = new javax.swing.JLabel();
@@ -270,6 +267,7 @@ public class pos extends javax.swing.JFrame {
         amountLabel.setText("Amount:");
         jPanel7.add(amountLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 80, -1, 20));
 
+        amountField.setEditable(false);
         amountField.setFont(new java.awt.Font("Montserrat SemiBold", 1, 14)); // NOI18N
         jPanel7.add(amountField, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 70, 160, 30));
 
@@ -277,6 +275,7 @@ public class pos extends javax.swing.JFrame {
         changeLabel.setText("Change:");
         jPanel7.add(changeLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 130, -1, 20));
 
+        changeField.setEditable(false);
         changeField.setFont(new java.awt.Font("Montserrat SemiBold", 1, 14)); // NOI18N
         jPanel7.add(changeField, new org.netbeans.lib.awtextra.AbsoluteConstraints(190, 120, 160, 30));
 
@@ -476,6 +475,7 @@ public class pos extends javax.swing.JFrame {
         jPanel1.add(macadamia, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 30, 170, 160));
 
         vscBrew.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/vanilla sweet cream cold brew.png"))); // NOI18N
+        vscBrew.setText("Sweet Cream Cold Brew");
         vscBrew.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 vscBrewActionPerformed(evt);
@@ -651,13 +651,13 @@ public class pos extends javax.swing.JFrame {
 
         jPanel1.add(jPanel13, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 690, 170, -1));
 
-        acai.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/strawberry acai lemonade.png"))); // NOI18N
-        acai.addActionListener(new java.awt.event.ActionListener() {
+        straw.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/strawberry acai lemonade.png"))); // NOI18N
+        straw.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                acaiActionPerformed(evt);
+                strawActionPerformed(evt);
             }
         });
-        jPanel1.add(acai, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 530, 170, 160));
+        jPanel1.add(straw, new org.netbeans.lib.awtextra.AbsoluteConstraints(400, 530, 170, 160));
 
         jPanel14.setBackground(new java.awt.Color(255, 255, 229));
         jPanel14.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
@@ -916,6 +916,39 @@ public class pos extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 //=========================Function=============================
+    
+    public void getQuantity(double a, String b){
+        //init values
+        final int MINIMUM_ORDER_VALUE=0;
+        final int MAXIMUM_ORDER_VALUE=30;
+        final int ORDER_INCREMENT =1;
+        
+        //Create a spinner object
+        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(MINIMUM_ORDER_VALUE,MINIMUM_ORDER_VALUE,MAXIMUM_ORDER_VALUE,ORDER_INCREMENT);
+        JSpinner spinner = new JSpinner(spinnerModel);
+        JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) spinner.getEditor();
+        JTextField txt = editor.getTextField();
+        txt.setEditable(true);
+        
+        //Pop-up
+        JOptionPane.showMessageDialog(null, spinner, "Quantity" , JOptionPane.INFORMATION_MESSAGE);
+        int spinnerValue = (Integer) spinner.getValue();
+        double price = a;
+        
+        DefaultTableModel model = (DefaultTableModel) receipt.getModel();
+        
+        
+        if(spinnerValue>0){
+        double cost = spinnerValue*price;
+        model.addRow(new Object[]{b, spinnerValue, cost});
+        ItemCost();
+        }
+        else
+        {
+        JOptionPane.showMessageDialog(null, "Message", "Invalid quantity", JOptionPane.INFORMATION_MESSAGE); 
+        }
+    }
+    
     public void ItemCost(){
         double total = 0;
         for  (int i=0; i<receipt.getRowCount(); i++)
@@ -1170,481 +1203,106 @@ public class pos extends javax.swing.JFrame {
     }//GEN-LAST:event_exitButtonActionPerformed
 
     private void vscBrewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_vscBrewActionPerformed
-        
-        // Spinner
-        final int MINIMUM_ORDER_VALUE=0;
-        final int MAXIMUM_ORDER_VALUE=30;
-        final int ORDER_INCREMENT =1;
-        
-        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(MINIMUM_ORDER_VALUE,MINIMUM_ORDER_VALUE,MAXIMUM_ORDER_VALUE,ORDER_INCREMENT);
-        JSpinner spinner = new JSpinner(spinnerModel);
-        JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) spinner.getEditor();
-        JTextField txt = editor.getTextField();
-        txt.setEditable(true);
-        
-        JOptionPane.showMessageDialog(null, spinner,"Quantity" , JOptionPane.INFORMATION_MESSAGE);
-        int spinnerValue = (Integer) spinner.getValue();
+        String name = "Sweet Cream Cold Brew";
         double price = 230.00;
-        
-        DefaultTableModel model = (DefaultTableModel) receipt.getModel();
-        
-        if(spinnerValue>0){
-        double cost = spinnerValue*price;
-        model.addRow(new Object[]{"Iced Cafe Mocha", spinnerValue, cost});
-        ItemCost();
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null, "Message", "Invalid quantity", JOptionPane.INFORMATION_MESSAGE); 
-        }
+        getQuantity(price, name);
     }//GEN-LAST:event_vscBrewActionPerformed
 
     private void javaChipActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_javaChipActionPerformed
-        final int MINIMUM_ORDER_VALUE=0;
-        final int MAXIMUM_ORDER_VALUE=30;
-        final int ORDER_INCREMENT =1;
-        
-        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(MINIMUM_ORDER_VALUE,MINIMUM_ORDER_VALUE,MAXIMUM_ORDER_VALUE,ORDER_INCREMENT);
-        JSpinner spinner = new JSpinner(spinnerModel);
-        JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) spinner.getEditor();
-        JTextField txt = editor.getTextField();
-        txt.setEditable(true);
-        
-        JOptionPane.showMessageDialog(null, spinner,"Quantity" , JOptionPane.INFORMATION_MESSAGE);
-        int spinnerValue = (Integer) spinner.getValue();
+        String name = "Java Chip Frappuccino";
         double price = 170.00;
-        
-        DefaultTableModel model = (DefaultTableModel) receipt.getModel();
-        
-        if(spinnerValue>0){
-        double cost = spinnerValue*price;
-        model.addRow(new Object[]{"Java Chip Frappuccino", spinnerValue, cost});
-        ItemCost();
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null, "Message", "Invalid quantity", JOptionPane.INFORMATION_MESSAGE); 
-        }
+        getQuantity(price, name);
     }//GEN-LAST:event_javaChipActionPerformed
 
     private void matchaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_matchaActionPerformed
-        final int MINIMUM_ORDER_VALUE=0;
-        final int MAXIMUM_ORDER_VALUE=30;
-        final int ORDER_INCREMENT =1;
-        
-        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(MINIMUM_ORDER_VALUE,MINIMUM_ORDER_VALUE,MAXIMUM_ORDER_VALUE,ORDER_INCREMENT);
-        JSpinner spinner = new JSpinner(spinnerModel);
-        JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) spinner.getEditor();
-        JTextField txt = editor.getTextField();
-        txt.setEditable(true);
-        
-        JOptionPane.showMessageDialog(null, spinner,"Quantity" , JOptionPane.INFORMATION_MESSAGE);
-        int spinnerValue = (Integer) spinner.getValue();
+        String name = "Macha Cream Frappe";
         double price = 180.00;
+        getQuantity(price, name);
         
-        DefaultTableModel model = (DefaultTableModel) receipt.getModel();
-        
-        if(spinnerValue>0){
-        double cost = spinnerValue*price;
-        model.addRow(new Object[]{"Matcha Creme Frappe", spinnerValue, cost});
-        ItemCost();
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null, "Message", "Invalid quantity", JOptionPane.INFORMATION_MESSAGE); 
-        }
     }//GEN-LAST:event_matchaActionPerformed
 
     private void summerBlendActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_summerBlendActionPerformed
-        final int MINIMUM_ORDER_VALUE=0;
-        final int MAXIMUM_ORDER_VALUE=30;
-        final int ORDER_INCREMENT =1;
-        
-        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(MINIMUM_ORDER_VALUE,MINIMUM_ORDER_VALUE,MAXIMUM_ORDER_VALUE,ORDER_INCREMENT);
-        JSpinner spinner = new JSpinner(spinnerModel);
-        JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) spinner.getEditor();
-        JTextField txt = editor.getTextField();
-        txt.setEditable(true);
-        
-        JOptionPane.showMessageDialog(null, spinner,"Quantity" , JOptionPane.INFORMATION_MESSAGE);
-        int spinnerValue = (Integer) spinner.getValue();
+        String name = "Summer Berry Lemon";
         double price = 220.00;
-        
-        DefaultTableModel model = (DefaultTableModel) receipt.getModel();
-        
-        if(spinnerValue>0){
-        double cost = spinnerValue*price;
-        model.addRow(new Object[]{"Summer Berry Lemon", spinnerValue, cost});
-        ItemCost();
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null, "Message", "Invalid quantity", JOptionPane.INFORMATION_MESSAGE); 
-        }
+        getQuantity(price, name);
     }//GEN-LAST:event_summerBlendActionPerformed
 
     private void cloudckActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cloudckActionPerformed
-        final int MINIMUM_ORDER_VALUE=0;
-        final int MAXIMUM_ORDER_VALUE=30;
-        final int ORDER_INCREMENT =1;
-        
-        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(MINIMUM_ORDER_VALUE,MINIMUM_ORDER_VALUE,MAXIMUM_ORDER_VALUE,ORDER_INCREMENT);
-        JSpinner spinner = new JSpinner(spinnerModel);
-        JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) spinner.getEditor();
-        JTextField txt = editor.getTextField();
-        txt.setEditable(true);
-        
-        JOptionPane.showMessageDialog(null, spinner,"Quantity" , JOptionPane.INFORMATION_MESSAGE);
-        int spinnerValue = (Integer) spinner.getValue();
+        String name = "Pineapple Cloud Cake";
         double price = 140.00;
-        
-        DefaultTableModel model = (DefaultTableModel) receipt.getModel();
-        
-        if(spinnerValue>0){
-        double cost = spinnerValue*price;
-        model.addRow(new Object[]{"Pineapple Cloud Cake", spinnerValue, cost});
-        ItemCost();
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null, "Message", "Invalid quantity", JOptionPane.INFORMATION_MESSAGE); 
-        }
+        getQuantity(price, name);
     }//GEN-LAST:event_cloudckActionPerformed
 
     private void lemonLoafActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lemonLoafActionPerformed
-        final int MINIMUM_ORDER_VALUE=0;
-        final int MAXIMUM_ORDER_VALUE=30;
-        final int ORDER_INCREMENT =1;
-        
-        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(MINIMUM_ORDER_VALUE,MINIMUM_ORDER_VALUE,MAXIMUM_ORDER_VALUE,ORDER_INCREMENT);
-        JSpinner spinner = new JSpinner(spinnerModel);
-        JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) spinner.getEditor();
-        JTextField txt = editor.getTextField();
-        txt.setEditable(true);
-        
-        JOptionPane.showMessageDialog(null, spinner,"Quantity" , JOptionPane.INFORMATION_MESSAGE);
-        int spinnerValue = (Integer) spinner.getValue();
+        String name = "Iced Lemon Loaf";
         double price = 120.00;
-        
-        DefaultTableModel model = (DefaultTableModel) receipt.getModel();
-        
-        if(spinnerValue>0){
-        double cost = spinnerValue*price;
-        model.addRow(new Object[]{"Iced Lemon Loaf", spinnerValue, cost});
-        ItemCost();
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null, "Message", "Invalid quantity", JOptionPane.INFORMATION_MESSAGE); 
-        }
+        getQuantity(price, name);
     }//GEN-LAST:event_lemonLoafActionPerformed
 
     private void cookieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cookieActionPerformed
-        final int MINIMUM_ORDER_VALUE=0;
-        final int MAXIMUM_ORDER_VALUE=30;
-        final int ORDER_INCREMENT =1;
-        
-        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(MINIMUM_ORDER_VALUE,MINIMUM_ORDER_VALUE,MAXIMUM_ORDER_VALUE,ORDER_INCREMENT);
-        JSpinner spinner = new JSpinner(spinnerModel);
-        JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) spinner.getEditor();
-        JTextField txt = editor.getTextField();
-        txt.setEditable(true);
-        
-        JOptionPane.showMessageDialog(null, spinner,"Quantity" , JOptionPane.INFORMATION_MESSAGE);
-        int spinnerValue = (Integer) spinner.getValue();
-        double price = 230.00;
-        
-        DefaultTableModel model = (DefaultTableModel) receipt.getModel();
-        
-        if(spinnerValue>0){
-        double cost = spinnerValue*price;
-        model.addRow(new Object[]{"Iced Cafe Mocha", spinnerValue, cost});
-        ItemCost();
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null, "Message", "Invalid quantity", JOptionPane.INFORMATION_MESSAGE); 
-        }
+        String name = "Chocolate Cookie Chip";
+        double price = 70.00;
+        getQuantity(price, name);
     }//GEN-LAST:event_cookieActionPerformed
 
     private void americanoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_americanoActionPerformed
-        final int MINIMUM_ORDER_VALUE=0;
-        final int MAXIMUM_ORDER_VALUE=30;
-        final int ORDER_INCREMENT =1;
-        
-        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(MINIMUM_ORDER_VALUE,MINIMUM_ORDER_VALUE,MAXIMUM_ORDER_VALUE,ORDER_INCREMENT);
-        JSpinner spinner = new JSpinner(spinnerModel);
-        JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) spinner.getEditor();
-        JTextField txt = editor.getTextField();
-        txt.setEditable(true);
-        
-        JOptionPane.showMessageDialog(null, spinner,"Quantity" , JOptionPane.INFORMATION_MESSAGE);
-        int spinnerValue = (Integer) spinner.getValue();
-        double price = 70.00;
-        
-        DefaultTableModel model = (DefaultTableModel) receipt.getModel();
-        
-        if(spinnerValue>0){
-        double cost = spinnerValue*price;
-        model.addRow(new Object[]{"Chocolate Cookie Chip", spinnerValue, cost});
-        ItemCost();
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null, "Message", "Invalid quantity", JOptionPane.INFORMATION_MESSAGE); 
-        }
+        String name = "Iced Caffe Americano";
+        double price = 150.00;
+        getQuantity(price, name);
     }//GEN-LAST:event_americanoActionPerformed
 
     private void macadamiaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_macadamiaActionPerformed
-        final int MINIMUM_ORDER_VALUE=0;
-        final int MAXIMUM_ORDER_VALUE=30;
-        final int ORDER_INCREMENT =1;
-        
-        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(MINIMUM_ORDER_VALUE,MINIMUM_ORDER_VALUE,MAXIMUM_ORDER_VALUE,ORDER_INCREMENT);
-        JSpinner spinner = new JSpinner(spinnerModel);
-        JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) spinner.getEditor();
-        JTextField txt = editor.getTextField();
-        txt.setEditable(true);
-        
-        JOptionPane.showMessageDialog(null, spinner,"Quantity" , JOptionPane.INFORMATION_MESSAGE);
-        int spinnerValue = (Integer) spinner.getValue();
+        String name = "Macadamia Cold Brew";
         double price = 240.00;
-        
-        DefaultTableModel model = (DefaultTableModel) receipt.getModel();
-        
-        if(spinnerValue>0){
-        double cost = spinnerValue*price;
-        model.addRow(new Object[]{"Macadamia Cold Brew", spinnerValue, cost});
-        ItemCost();
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null, "Message", "Invalid quantity", JOptionPane.INFORMATION_MESSAGE); 
-        }
+        getQuantity(price, name);
     }//GEN-LAST:event_macadamiaActionPerformed
 
     private void mochaFrapActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mochaFrapActionPerformed
-        final int MINIMUM_ORDER_VALUE=0;
-        final int MAXIMUM_ORDER_VALUE=30;
-        final int ORDER_INCREMENT =1;
-        
-        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(MINIMUM_ORDER_VALUE,MINIMUM_ORDER_VALUE,MAXIMUM_ORDER_VALUE,ORDER_INCREMENT);
-        JSpinner spinner = new JSpinner(spinnerModel);
-        JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) spinner.getEditor();
-        JTextField txt = editor.getTextField();
-        txt.setEditable(true);
-        
-        JOptionPane.showMessageDialog(null, spinner,"Quantity" , JOptionPane.INFORMATION_MESSAGE);
-        int spinnerValue = (Integer) spinner.getValue();
+        String name = "Mocha Frappuccino";
         double price = 150.00;
-        
-        DefaultTableModel model = (DefaultTableModel) receipt.getModel();
-        
-        if(spinnerValue>0){
-        double cost = spinnerValue*price;
-        model.addRow(new Object[]{"Mocha Frappuccino", spinnerValue, cost});
-        ItemCost();
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null, "Message", "Invalid quantity", JOptionPane.INFORMATION_MESSAGE); 
-        }
+        getQuantity(price, name);
     }//GEN-LAST:event_mochaFrapActionPerformed
 
     private void mochaCookieActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mochaCookieActionPerformed
-       final int MINIMUM_ORDER_VALUE=0;
-        final int MAXIMUM_ORDER_VALUE=30;
-        final int ORDER_INCREMENT =1;
-        
-        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(MINIMUM_ORDER_VALUE,MINIMUM_ORDER_VALUE,MAXIMUM_ORDER_VALUE,ORDER_INCREMENT);
-        JSpinner spinner = new JSpinner(spinnerModel);
-        JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) spinner.getEditor();
-        JTextField txt = editor.getTextField();
-        txt.setEditable(true);
-        
-        JOptionPane.showMessageDialog(null, spinner,"Quantity" , JOptionPane.INFORMATION_MESSAGE);
-        int spinnerValue = (Integer) spinner.getValue();
+        String name = "Mocha Cookie Crumble";
         double price = 190.00;
-        
-        DefaultTableModel model = (DefaultTableModel) receipt.getModel();
-        
-        if(spinnerValue>0){
-        double cost = spinnerValue*price;
-        model.addRow(new Object[]{"Mocha Cookie Crumble", spinnerValue, cost});
-        ItemCost();
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null, "Message", "Invalid quantity", JOptionPane.INFORMATION_MESSAGE); 
-        }
+        getQuantity(price, name);
     }//GEN-LAST:event_mochaCookieActionPerformed
 
     private void pineappActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_pineappActionPerformed
-       final int MINIMUM_ORDER_VALUE=0;
-        final int MAXIMUM_ORDER_VALUE=30;
-        final int ORDER_INCREMENT =1;
-        
-        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(MINIMUM_ORDER_VALUE,MINIMUM_ORDER_VALUE,MAXIMUM_ORDER_VALUE,ORDER_INCREMENT);
-        JSpinner spinner = new JSpinner(spinnerModel);
-        JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) spinner.getEditor();
-        JTextField txt = editor.getTextField();
-        txt.setEditable(true);
-        
-        JOptionPane.showMessageDialog(null, spinner,"Quantity" , JOptionPane.INFORMATION_MESSAGE);
-        int spinnerValue = (Integer) spinner.getValue();
+        String name = "Pineapple Passionfruit";
         double price = 200.00;
-        
-        DefaultTableModel model = (DefaultTableModel) receipt.getModel();
-        
-        if(spinnerValue>0){
-        double cost = spinnerValue*price;
-        model.addRow(new Object[]{"Pineapple Passionfruit", spinnerValue, cost});
-        ItemCost();
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null, "Message", "Invalid quantity", JOptionPane.INFORMATION_MESSAGE); 
-        }
+        getQuantity(price, name);
     }//GEN-LAST:event_pineappActionPerformed
 
-    private void acaiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_acaiActionPerformed
-        final int MINIMUM_ORDER_VALUE=0;
-        final int MAXIMUM_ORDER_VALUE=30;
-        final int ORDER_INCREMENT =1;
-        
-        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(MINIMUM_ORDER_VALUE,MINIMUM_ORDER_VALUE,MAXIMUM_ORDER_VALUE,ORDER_INCREMENT);
-        JSpinner spinner = new JSpinner(spinnerModel);
-        JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) spinner.getEditor();
-        JTextField txt = editor.getTextField();
-        txt.setEditable(true);
-        
-        JOptionPane.showMessageDialog(null, spinner,"Quantity" , JOptionPane.INFORMATION_MESSAGE);
-        int spinnerValue = (Integer) spinner.getValue();
+    private void strawActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_strawActionPerformed
+        String name = "Strawberry Lemonade";
         double price = 230.00;
-        
-        DefaultTableModel model = (DefaultTableModel) receipt.getModel();
-        
-        if(spinnerValue>0){
-        double cost = spinnerValue*price;
-        model.addRow(new Object[]{"Strawberry Lemonade", spinnerValue, cost});
-        ItemCost();
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null, "Message", "Invalid quantity", JOptionPane.INFORMATION_MESSAGE); 
-        }
-    }//GEN-LAST:event_acaiActionPerformed
+        getQuantity(price, name);
+    }//GEN-LAST:event_strawActionPerformed
 
     private void dragonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_dragonActionPerformed
-       final int MINIMUM_ORDER_VALUE=0;
-        final int MAXIMUM_ORDER_VALUE=30;
-        final int ORDER_INCREMENT =1;
-        
-        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(MINIMUM_ORDER_VALUE,MINIMUM_ORDER_VALUE,MAXIMUM_ORDER_VALUE,ORDER_INCREMENT);
-        JSpinner spinner = new JSpinner(spinnerModel);
-        JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) spinner.getEditor();
-        JTextField txt = editor.getTextField();
-        txt.setEditable(true);
-        
-        JOptionPane.showMessageDialog(null, spinner,"Quantity" , JOptionPane.INFORMATION_MESSAGE);
-        int spinnerValue = (Integer) spinner.getValue();
+        String name = "Dragon Drink";
         double price = 230.00;
-        
-        DefaultTableModel model = (DefaultTableModel) receipt.getModel();
-        
-        if(spinnerValue>0){
-        double cost = spinnerValue*price;
-        model.addRow(new Object[]{"Dragon Drink", spinnerValue, cost});
-        ItemCost();
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null, "Message", "Invalid quantity", JOptionPane.INFORMATION_MESSAGE); 
-        }
+        getQuantity(price, name);
     }//GEN-LAST:event_dragonActionPerformed
 
     private void chocoCroisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chocoCroisActionPerformed
-       final int MINIMUM_ORDER_VALUE=0;
-        final int MAXIMUM_ORDER_VALUE=30;
-        final int ORDER_INCREMENT =1;
-        
-        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(MINIMUM_ORDER_VALUE,MINIMUM_ORDER_VALUE,MAXIMUM_ORDER_VALUE,ORDER_INCREMENT);
-        JSpinner spinner = new JSpinner(spinnerModel);
-        JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) spinner.getEditor();
-        JTextField txt = editor.getTextField();
-        txt.setEditable(true);
-        
-        JOptionPane.showMessageDialog(null, spinner,"Quantity" , JOptionPane.INFORMATION_MESSAGE);
-        int spinnerValue = (Integer) spinner.getValue();
+        String name = "Choco Croissant";
         double price = 110.00;
-        
-        DefaultTableModel model = (DefaultTableModel) receipt.getModel();
-        
-        if(spinnerValue>0){
-        double cost = spinnerValue*price;
-        model.addRow(new Object[]{"Choco Croissant", spinnerValue, cost});
-        ItemCost();
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null, "Message", "Invalid quantity", JOptionPane.INFORMATION_MESSAGE); 
-        }
+        getQuantity(price, name);
     }//GEN-LAST:event_chocoCroisActionPerformed
 
     private void bagelActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_bagelActionPerformed
-        final int MINIMUM_ORDER_VALUE=0;
-        final int MAXIMUM_ORDER_VALUE=30;
-        final int ORDER_INCREMENT =1;
-        
-        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(MINIMUM_ORDER_VALUE,MINIMUM_ORDER_VALUE,MAXIMUM_ORDER_VALUE,ORDER_INCREMENT);
-        JSpinner spinner = new JSpinner(spinnerModel);
-        JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) spinner.getEditor();
-        JTextField txt = editor.getTextField();
-        txt.setEditable(true);
-        
-        JOptionPane.showMessageDialog(null, spinner,"Quantity" , JOptionPane.INFORMATION_MESSAGE);
-        int spinnerValue = (Integer) spinner.getValue();
-        double price = 60.00;
-        
-        DefaultTableModel model = (DefaultTableModel) receipt.getModel();
-        
-        if(spinnerValue>0){
-        double cost = spinnerValue*price;
-        model.addRow(new Object[]{"Bagel", spinnerValue, cost});
-        ItemCost();
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null, "Message", "Invalid quantity", JOptionPane.INFORMATION_MESSAGE); 
-        }
+        String name = "Bagel";
+        double price = 120.00;
+        getQuantity(price, name);
     }//GEN-LAST:event_bagelActionPerformed
 
     private void hamCroisActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hamCroisActionPerformed
-        final int MINIMUM_ORDER_VALUE=0;
-        final int MAXIMUM_ORDER_VALUE=30;
-        final int ORDER_INCREMENT =1;
-        
-        SpinnerNumberModel spinnerModel = new SpinnerNumberModel(MINIMUM_ORDER_VALUE,MINIMUM_ORDER_VALUE,MAXIMUM_ORDER_VALUE,ORDER_INCREMENT);
-        JSpinner spinner = new JSpinner(spinnerModel);
-        JSpinner.DefaultEditor editor = (JSpinner.DefaultEditor) spinner.getEditor();
-        JTextField txt = editor.getTextField();
-        txt.setEditable(true);
-        
-        JOptionPane.showMessageDialog(null, spinner,"Quantity" , JOptionPane.INFORMATION_MESSAGE);
-        int spinnerValue = (Integer) spinner.getValue();
+        String name = "Ham and Swiss Croissant";
         double price = 90.00;
-        
-        DefaultTableModel model = (DefaultTableModel) receipt.getModel();
-        
-        if(spinnerValue>0){
-        double cost = spinnerValue*price;
-        model.addRow(new Object[]{"Ham and Swiss Croissant", spinnerValue, cost});
-        ItemCost();
-        }
-        else
-        {
-        JOptionPane.showMessageDialog(null, "Message", "Invalid quantity", JOptionPane.INFORMATION_MESSAGE); 
-        }
+        getQuantity(price, name);
     }//GEN-LAST:event_hamCroisActionPerformed
 
     private void homeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeButtonActionPerformed
@@ -1704,7 +1362,6 @@ public class pos extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton acai;
     private javax.swing.JButton americano;
     private javax.swing.JTextField amountField;
     private javax.swing.JLabel amountLabel;
@@ -1809,6 +1466,7 @@ public class pos extends javax.swing.JFrame {
     private javax.swing.JTable receipt;
     private javax.swing.JButton removeOrderButton;
     private javax.swing.JButton resetOrderButton;
+    private javax.swing.JButton straw;
     private javax.swing.JPanel subTotal;
     private javax.swing.JTextField subtotalField;
     private javax.swing.JLabel subtotalLabel;

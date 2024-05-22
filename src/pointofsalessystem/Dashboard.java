@@ -173,6 +173,11 @@ public class Dashboard extends javax.swing.JFrame {
 
     private void jButton11ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton11ActionPerformed
         // TODO add your handling code here:
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            public void run() {
+                new OrderHistory().setVisible(true);
+            }
+        });
     }//GEN-LAST:event_jButton11ActionPerformed
 
     /**
