@@ -11,6 +11,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.*;
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import pointofsalessystem.Dashboard;
@@ -21,7 +22,7 @@ import pointofsalessystem.Dashboard;
  */
 public class pos extends javax.swing.JFrame {
 
-     final String format = "\n%-16s \t%-6d \t%.2f";
+    final String format = "\n%-16s \t%-6d \t%.2f";
     
     ArrayList<String> menuBought = new ArrayList();
     ArrayList<String> menu = new ArrayList<>();
@@ -34,15 +35,11 @@ public class pos extends javax.swing.JFrame {
     
     public pos() {
         initComponents();
-        /**initOriginalMeals();
-        addMealEventListener();
-        displayMeals();
         
-        generateOrderNumber();
-        generateQueueNumber();
-        clearReceipt();
+       
         
-        setLocationRelativeTo(null);*/
+        
+    
     }
     
  
@@ -326,6 +323,11 @@ public class pos extends javax.swing.JFrame {
         payButton.setFont(new java.awt.Font("Montserrat SemiBold", 1, 18)); // NOI18N
         payButton.setText("PAY");
         payButton.setBorder(new javax.swing.border.SoftBevelBorder(javax.swing.border.BevelBorder.LOWERED));
+        payButton.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                payButtonMouseClicked(evt);
+            }
+        });
         payButton.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 payButtonActionPerformed(evt);
@@ -916,7 +918,12 @@ public class pos extends javax.swing.JFrame {
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 //=========================Function=============================
+
+   
+        
     
+    
+    //Get quantity of orders
     public void getQuantity(double a, String b){
         //init values
         final int MINIMUM_ORDER_VALUE=0;
@@ -936,6 +943,8 @@ public class pos extends javax.swing.JFrame {
         double price = a;
         
         DefaultTableModel model = (DefaultTableModel) receipt.getModel();
+        
+            
         
         
         if(spinnerValue>0){
@@ -1038,12 +1047,24 @@ public class pos extends javax.swing.JFrame {
     private void payButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_payButtonActionPerformed
        if (paymentMethod.getSelectedItem().equals("Cash")){
            Change();
+           String total = totalField.getText();
+           
+           //get Date and Time
+           Date currentDate = new Date();
+           SimpleDateFormat timeFormat = new SimpleDateFormat("h:mm a");
+           SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
+           
+           OrderHistory.addRowToHistory(new Object[]{
+           dateFormat.format(currentDate),timeFormat.format(currentDate),receipt.getValueAt(0, 0), total
+           });
        }
        else
        {
            changeField.setText("");
            amountField.setText("");
        }
+       
+
     }//GEN-LAST:event_payButtonActionPerformed
 
     private void key9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_key9ActionPerformed
@@ -1322,6 +1343,10 @@ public class pos extends javax.swing.JFrame {
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void payButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_payButtonMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_payButtonMouseClicked
 
     /**
      * @param args the command line arguments

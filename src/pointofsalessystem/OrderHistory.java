@@ -4,7 +4,9 @@
  */
 package pointofsalessystem;
 import javax.swing.JFrame;
-
+import javax.swing.table.DefaultTableModel;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 /**
  *
  * @author hp
@@ -16,6 +18,8 @@ public class OrderHistory extends javax.swing.JFrame {
      */
     public OrderHistory() {
         initComponents();
+        
+        
     }
 
     /**
@@ -30,15 +34,14 @@ public class OrderHistory extends javax.swing.JFrame {
         parentPanel = new javax.swing.JPanel();
         titlePanel = new javax.swing.JPanel();
         jButton1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
+        titleLabel = new javax.swing.JLabel();
         homeButton = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        historyTable = new javax.swing.JTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Order History");
         setName("parentFrame"); // NOI18N
-        setPreferredSize(new java.awt.Dimension(900, 600));
 
         parentPanel.setBackground(new java.awt.Color(255, 255, 255));
         parentPanel.setMaximumSize(new java.awt.Dimension(900, 600));
@@ -51,6 +54,11 @@ public class OrderHistory extends javax.swing.JFrame {
         titlePanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Images/starbucks-logo1-removebg-preview.png"))); // NOI18N
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton1MouseClicked(evt);
+            }
+        });
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jButton1ActionPerformed(evt);
@@ -58,10 +66,10 @@ public class OrderHistory extends javax.swing.JFrame {
         });
         titlePanel.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 137, 99));
 
-        jLabel1.setFont(new java.awt.Font("Montserrat SemiBold", 1, 48)); // NOI18N
-        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("ORDER HISTORY");
-        titlePanel.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(277, 21, 411, 55));
+        titleLabel.setFont(new java.awt.Font("Montserrat SemiBold", 1, 48)); // NOI18N
+        titleLabel.setForeground(new java.awt.Color(255, 255, 255));
+        titleLabel.setText("ORDER HISTORY");
+        titlePanel.add(titleLabel, new org.netbeans.lib.awtextra.AbsoluteConstraints(277, 21, 411, 55));
 
         homeButton.setFont(new java.awt.Font("Montserrat SemiBold", 1, 18)); // NOI18N
         homeButton.setForeground(new java.awt.Color(255, 255, 255));
@@ -76,25 +84,32 @@ public class OrderHistory extends javax.swing.JFrame {
 
         parentPanel.add(titlePanel, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
-        jTable1.setBackground(new java.awt.Color(255, 255, 255));
-        jTable1.setForeground(new java.awt.Color(255, 255, 255));
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        historyTable.setBackground(new java.awt.Color(232, 232, 232));
+        historyTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "Date", "Time", "Product/s bought", "Amount"
+                "Date", "Time", "Total"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(historyTable);
 
-        parentPanel.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 900, 530));
+        parentPanel.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 100, 900, 520));
 
         getContentPane().add(parentPanel, java.awt.BorderLayout.CENTER);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
+    
+    
+    //Method for adding history in JTable
+    public static void addRowToHistory(Object[] dataRow){
+        //
+        DefaultTableModel model = (DefaultTableModel) historyTable.getModel();
+        model.addRow(dataRow);
+    }
+            
     private void homeButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_homeButtonActionPerformed
         // TODO add your handling code here:
         this.dispose();
@@ -112,6 +127,10 @@ public class OrderHistory extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1MouseClicked
 
     /**
      * @param args the command line arguments
@@ -149,12 +168,12 @@ public class OrderHistory extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private static javax.swing.JTable historyTable;
     private javax.swing.JButton homeButton;
     private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     private javax.swing.JPanel parentPanel;
+    private javax.swing.JLabel titleLabel;
     private javax.swing.JPanel titlePanel;
     // End of variables declaration//GEN-END:variables
 }
